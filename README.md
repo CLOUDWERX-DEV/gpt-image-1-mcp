@@ -91,7 +91,6 @@ export GPT_IMAGE_OUTPUT_DIR=/home/username/Pictures/ai-generated-images
 # Run the server with NPX
 npx -y @cloudwerxlab/gpt-image-1-mcp
 ```
-    </td>
   </tr>
   <tr>
     <td><strong>Windows (PowerShell)</strong></td>
@@ -107,7 +106,6 @@ $env:GPT_IMAGE_OUTPUT_DIR = "C:\Users\username\Pictures\ai-generated-images"
 # Run the server with NPX
 npx -y @cloudwerxlab/gpt-image-1-mcp
 ```
-    </td>
   </tr>
   <tr>
     <td><strong>Windows (Command Prompt)</strong></td>
@@ -123,7 +121,6 @@ set GPT_IMAGE_OUTPUT_DIR=C:\Users\username\Pictures\ai-generated-images
 :: Run the server with NPX
 npx -y @cloudwerxlab/gpt-image-1-mcp
 ```
-    </td>
   </tr>
 </table>
 
@@ -203,7 +200,6 @@ npx -y @cloudwerxlab/gpt-image-1-mcp
   }
 }
 ```
-    </td>
   </tr>
   <tr>
     <td><strong>Linux/macOS</strong></td>
@@ -223,7 +219,6 @@ npx -y @cloudwerxlab/gpt-image-1-mcp
   }
 }
 ```
-    </td>
   </tr>
 </table>
 
