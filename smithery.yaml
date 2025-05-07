@@ -1,0 +1,30 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - openAiApiKey
+    properties:
+      openAiApiKey:
+        type: string
+        description: OpenAI API key with access to gpt-image-1
+      gptImageOutputDir:
+        type: string
+        description: Optional directory for saving generated images
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({
+      command: 'node',
+      args: ['build/index.js'],
+      env: {
+        OPENAI_API_KEY: config.openAiApiKey,
+        ...(config.gptImageOutputDir ? { GPT_IMAGE_OUTPUT_DIR: config.gptImageOutputDir } : {})
+      }
+    })
+  exampleConfig:
+    openAiApiKey: sk-your-openai-api-key
+    gptImageOutputDir: /path/to/generated-images
