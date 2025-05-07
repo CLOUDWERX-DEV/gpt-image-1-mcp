@@ -1,50 +1,164 @@
-# @cloudwerxlab/gpt-image-1-mcp
+<p align="center">
+  <img src="logo.png" alt="GPT Image 1 MCP Logo" width="200"/>
+</p>
 
-A Model Context Protocol (MCP) server for generating and editing images using the OpenAI `gpt-image-1` model.
+<h1 align="center">@cloudwerxlab/gpt-image-1-mcp</h1>
 
-## NPX Usage
+<p align="center">
+  <a href="https://www.npmjs.com/package/@cloudwerxlab/gpt-image-1-mcp"><img src="https://img.shields.io/npm/v/@cloudwerxlab/gpt-image-1-mcp.svg" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/@cloudwerxlab/gpt-image-1-mcp"><img src="https://img.shields.io/npm/dm/@cloudwerxlab/gpt-image-1-mcp.svg" alt="npm downloads"></a>
+  <a href="https://github.com/CLOUDWERX-DEV/gpt-image-1-mcp/blob/main/LICENSE"><img src="https://img.shields.io/github/license/CLOUDWERX-DEV/gpt-image-1-mcp.svg" alt="license"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/node/v/@cloudwerxlab/gpt-image-1-mcp.svg" alt="node version"></a>
+  <a href="https://cloudwerx.dev"><img src="https://img.shields.io/badge/website-cloudwerx.dev-blue" alt="Website"></a>
+</p>
 
-You can run this MCP server directly using NPX without installing it:
+<p align="center">
+  A Model Context Protocol (MCP) server for generating and editing images using the OpenAI <code>gpt-image-1</code> model.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/OpenAI-GPT--Image--1-6E46AE" alt="OpenAI GPT-Image-1">
+  <img src="https://img.shields.io/badge/MCP-Compatible-00A3E0" alt="MCP Compatible">
+</p>
+
+## 🚀 Quick Start
+
+<div align="center">
+  <a href="https://www.npmjs.com/package/@cloudwerxlab/gpt-image-1-mcp"><img src="https://img.shields.io/badge/NPX-Ready-red.svg" alt="NPX Ready"></a>
+</div>
+
+<p align="center">Run this MCP server directly using NPX without installing it. <a href="https://www.npmjs.com/package/@cloudwerxlab/gpt-image-1-mcp">View on npm</a>.</p>
 
 ```bash
 npx -y @cloudwerxlab/gpt-image-1-mcp
 ```
 
-The `-y` flag automatically answers "yes" to any prompts that might appear during the installation process, which is especially important when running from MCP clients.
+<p align="center">The <code>-y</code> flag automatically answers "yes" to any prompts that might appear during the installation process.</p>
 
-### Prerequisites
+### 📋 Prerequisites
 
-- Node.js (v14 or higher)
-- An OpenAI API key with access to the gpt-image-1 model
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://img.shields.io/badge/Node.js-v14+-339933?logo=node.js&logoColor=white" alt="Node.js v14+">
+      <p>Node.js (v14 or higher)</p>
+    </td>
+    <td width="50%" align="center">
+      <img src="https://img.shields.io/badge/OpenAI-API_Key-412991?logo=openai&logoColor=white" alt="OpenAI API Key">
+      <p>OpenAI API key with access to gpt-image-1</p>
+    </td>
+  </tr>
+</table>
 
-### Environment Variables
+### 🔑 Environment Variables
 
-The server uses the following environment variables:
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Required</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>OPENAI_API_KEY</code></td>
+    <td>✅ Yes</td>
+    <td>Your OpenAI API key with access to the gpt-image-1 model</td>
+  </tr>
+  <tr>
+    <td><code>GPT_IMAGE_OUTPUT_DIR</code></td>
+    <td>❌ No</td>
+    <td>Custom directory for saving generated images (defaults to user's Pictures folder under <code>gpt-image-1</code> subfolder)</td>
+  </tr>
+</table>
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `OPENAI_API_KEY` | Yes | Your OpenAI API key with access to the gpt-image-1 model |
-| `GPT_IMAGE_OUTPUT_DIR` | No | Custom directory for saving generated images (defaults to user's Pictures folder under `gpt-image-1` subfolder) |
+### 💻 Example Usage with NPX
 
-### Example Usage with NPX
+<table>
+  <tr>
+    <th>Operating System</th>
+    <th>Command Line Example</th>
+  </tr>
+  <tr>
+    <td><strong>Linux/macOS</strong></td>
+    <td>
 
 ```bash
 # Set your OpenAI API key
 export OPENAI_API_KEY=sk-your-openai-api-key
 
+# Optional: Set custom output directory
+export GPT_IMAGE_OUTPUT_DIR=/home/username/Pictures/ai-generated-images
+
 # Run the server with NPX
 npx -y @cloudwerxlab/gpt-image-1-mcp
 ```
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Windows (PowerShell)</strong></td>
+    <td>
 
-### Setting Up in an MCP Client
+```powershell
+# Set your OpenAI API key
+$env:OPENAI_API_KEY = "sk-your-openai-api-key"
 
-#### For Roo or VS Code MCP Extension
+# Optional: Set custom output directory
+$env:GPT_IMAGE_OUTPUT_DIR = "C:\Users\username\Pictures\ai-generated-images"
 
-1. Locate your MCP settings file:
-   - For Roo: `c:\Users\<username>\AppData\Roaming\Code\User\globalStorage\rooveterinaryinc.roo-cline\settings\mcp_settings.json`
-   - For VS Code MCP Extension: Check your extension documentation for the settings file location
+# Run the server with NPX
+npx -y @cloudwerxlab/gpt-image-1-mcp
+```
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Windows (Command Prompt)</strong></td>
+    <td>
 
-2. Add the following configuration to the `mcpServers` object:
+```cmd
+:: Set your OpenAI API key
+set OPENAI_API_KEY=sk-your-openai-api-key
+
+:: Optional: Set custom output directory
+set GPT_IMAGE_OUTPUT_DIR=C:\Users\username\Pictures\ai-generated-images
+
+:: Run the server with NPX
+npx -y @cloudwerxlab/gpt-image-1-mcp
+```
+    </td>
+  </tr>
+</table>
+
+## 🔌 Integration with MCP Clients
+
+<div align="center">
+  <img src="https://img.shields.io/badge/VS_Code-MCP_Extension-007ACC?logo=visual-studio-code&logoColor=white" alt="VS Code MCP Extension">
+  <img src="https://img.shields.io/badge/Roo-Compatible-FF6B6B" alt="Roo Compatible">
+  <img src="https://img.shields.io/badge/Cursor-Compatible-4C2889" alt="Cursor Compatible">
+  <img src="https://img.shields.io/badge/Augment-Compatible-6464FF" alt="Augment Compatible">
+  <img src="https://img.shields.io/badge/Windsurf-Compatible-00B4D8" alt="Windsurf Compatible">
+</div>
+
+### 🛠️ Setting Up in an MCP Client
+
+<table>
+  <tr>
+    <td>
+      <h4>Step 1: Locate Settings File</h4>
+      <ul>
+        <li>For <strong>Roo</strong>: <code>c:\Users\&lt;username&gt;\AppData\Roaming\Code\User\globalStorage\rooveterinaryinc.roo-cline\settings\mcp_settings.json</code></li>
+        <li>For <strong>VS Code MCP Extension</strong>: Check your extension documentation for the settings file location</li>
+        <li>For <strong>Cursor</strong>: <code>~/.config/cursor/mcp_settings.json</code> (Linux/macOS) or <code>%APPDATA%\Cursor\mcp_settings.json</code> (Windows)</li>
+        <li>For <strong>Augment</strong>: <code>~/.config/augment/mcp_settings.json</code> (Linux/macOS) or <code>%APPDATA%\Augment\mcp_settings.json</code> (Windows)</li>
+        <li>For <strong>Windsurf</strong>: <code>~/.config/windsurf/mcp_settings.json</code> (Linux/macOS) or <code>%APPDATA%\Windsurf\mcp_settings.json</code> (Windows)</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h4>Step 2: Add Configuration</h4>
+      <p>Add the following configuration to the <code>mcpServers</code> object:</p>
+    </td>
+  </tr>
+</table>
 
 ```json
 {
@@ -56,55 +170,180 @@ npx -y @cloudwerxlab/gpt-image-1-mcp
         "@cloudwerxlab/gpt-image-1-mcp"
       ],
       "env": {
-        "OPENAI_API_KEY": "PASTE YOUR OPEN-AI KEY HERE"
+        "OPENAI_API_KEY": "PASTE YOUR OPEN-AI KEY HERE",
+        "GPT_IMAGE_OUTPUT_DIR": "OPTIONAL: PATH TO SAVE GENERATED IMAGES"
       }
     }
   }
 }
 ```
 
-## Features
+#### Example Configurations for Different Operating Systems
 
-This server exposes two tools:
-- `create_image`: Generates a new image based on a text prompt.
-- `create_image_edit`: Edits an existing image based on a text prompt and optional mask.
+<table>
+  <tr>
+    <th>Operating System</th>
+    <th>Example Configuration</th>
+  </tr>
+  <tr>
+    <td><strong>Windows</strong></td>
+    <td>
 
-### Enhanced Capabilities
+```json
+{
+  "mcpServers": {
+    "gpt-image-1": {
+      "command": "npx",
+      "args": ["-y", "@cloudwerxlab/gpt-image-1-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "sk-your-openai-api-key",
+        "GPT_IMAGE_OUTPUT_DIR": "C:\\Users\\username\\Pictures\\ai-generated-images"
+      }
+    }
+  }
+}
+```
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Linux/macOS</strong></td>
+    <td>
 
-- **Beautifully Formatted Output**: Responses include emojis and detailed information about the generated images
-- **Automatic Image Saving**: All generated images are saved to disk for easy access
-- **Configurable Output Directory**: Customize where images are saved using environment variables
-- **File Path Support**: Edit images using file paths instead of base64 encoding
-- **Detailed Token Usage**: View token consumption for each request
-- **Error Handling**: Robust error handling with informative error messages
+```json
+{
+  "mcpServers": {
+    "gpt-image-1": {
+      "command": "npx",
+      "args": ["-y", "@cloudwerxlab/gpt-image-1-mcp"],
+      "env": {
+        "OPENAI_API_KEY": "sk-your-openai-api-key",
+        "GPT_IMAGE_OUTPUT_DIR": "/home/username/Pictures/ai-generated-images"
+      }
+    }
+  }
+}
+```
+    </td>
+  </tr>
+</table>
 
-### How It Works
+> **Note**: For Windows paths, use double backslashes (`\\`) to escape the backslash character in JSON. For Linux/macOS, use forward slashes (`/`).
 
-#### Image Generation Process
-1. The server receives a prompt and parameters from the client
-2. It calls the OpenAI API using the gpt-image-1 model
-3. The API returns base64-encoded images
-4. The server saves these images to the configured output directory
-5. It returns a formatted response with image paths and metadata
+## ✨ Features
 
-#### Image Editing Process
-1. The server receives an image (as base64 or file path), a prompt, and optional mask
-2. For file paths, it reads the files and prepares them for the API
-3. It uses a direct curl command to ensure proper MIME type handling
-4. The API returns base64-encoded edited images
-5. The server saves these images to the configured output directory
-6. It returns a formatted response with image paths and metadata
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <h3>🎨 Core Tools</h3>
+        <ul>
+          <li><code>create_image</code>: Generate new images from text prompts</li>
+          <li><code>create_image_edit</code>: Edit existing images with text prompts and masks</li>
+        </ul>
+      </td>
+      <td align="center">
+        <h3>🚀 Key Benefits</h3>
+        <ul>
+          <li>Simple integration with MCP clients</li>
+          <li>Full access to OpenAI's gpt-image-1 capabilities</li>
+          <li>Streamlined workflow for AI image generation</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
 
-### Output Directory Behavior
+### 💡 Enhanced Capabilities
 
-- **Default Location**: User's Pictures folder under `gpt-image-1` subfolder (e.g., `C:\Users\username\Pictures\gpt-image-1` on Windows)
-- **Custom Location**: Set via `GPT_IMAGE_OUTPUT_DIR` environment variable
-- **Fallback Location**: `./generated-images` (if Pictures folder can't be determined)
-- **Directory Creation**: The server automatically creates the output directory if it doesn't exist
-- **File Naming**: Images are saved with timestamped filenames (e.g., `image-2023-05-05T12-34-56-789Z.png`)
-- **Cross-Platform**: Works on Windows, macOS, and Linux with appropriate Pictures folder detection
+<table>
+  <tr>
+    <td>
+      <h4>📊 Output & Formatting</h4>
+      <ul>
+        <li>✅ <strong>Beautifully Formatted Output</strong>: Responses include emojis and detailed information</li>
+        <li>✅ <strong>Automatic Image Saving</strong>: All generated images saved to disk for easy access</li>
+        <li>✅ <strong>Detailed Token Usage</strong>: View token consumption for each request</li>
+      </ul>
+    </td>
+    <td>
+      <h4>⚙️ Configuration & Handling</h4>
+      <ul>
+        <li>✅ <strong>Configurable Output Directory</strong>: Customize where images are saved</li>
+        <li>✅ <strong>File Path Support</strong>: Edit images using file paths instead of base64 encoding</li>
+        <li>✅ <strong>Comprehensive Error Handling</strong>: Detailed error reporting with specific error codes, descriptions, and troubleshooting suggestions</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-## Usage
+## 🔄 How It Works
+
+<div align="center">
+  <table>
+    <tr>
+      <th align="center">🖼️ Image Generation</th>
+      <th align="center">✏️ Image Editing</th>
+    </tr>
+    <tr>
+      <td>
+        <ol>
+          <li>Server receives prompt and parameters</li>
+          <li>Calls OpenAI API using gpt-image-1 model</li>
+          <li>API returns base64-encoded images</li>
+          <li>Server saves images to configured directory</li>
+          <li>Returns formatted response with paths and metadata</li>
+        </ol>
+      </td>
+      <td>
+        <ol>
+          <li>Server receives image, prompt, and optional mask</li>
+          <li>For file paths, reads and prepares files for API</li>
+          <li>Uses direct curl command for proper MIME handling</li>
+          <li>API returns base64-encoded edited images</li>
+          <li>Server saves images to configured directory</li>
+          <li>Returns formatted response with paths and metadata</li>
+        </ol>
+      </td>
+    </tr>
+  </table>
+</div>
+
+### 📁 Output Directory Behavior
+
+<table>
+  <tr>
+    <td width="50%">
+      <h4>📂 Storage Location</h4>
+      <ul>
+        <li>🔹 <strong>Default Location</strong>: User's Pictures folder under <code>gpt-image-1</code> subfolder (e.g., <code>C:\Users\username\Pictures\gpt-image-1</code> on Windows)</li>
+        <li>🔹 <strong>Custom Location</strong>: Set via <code>GPT_IMAGE_OUTPUT_DIR</code> environment variable</li>
+        <li>🔹 <strong>Fallback Location</strong>: <code>./generated-images</code> (if Pictures folder can't be determined)</li>
+      </ul>
+    </td>
+    <td width="50%">
+      <h4>🗂️ File Management</h4>
+      <ul>
+        <li>🔹 <strong>Directory Creation</strong>: Automatically creates output directory if it doesn't exist</li>
+        <li>🔹 <strong>File Naming</strong>: Images saved with timestamped filenames (e.g., <code>image-2023-05-05T12-34-56-789Z.png</code>)</li>
+        <li>🔹 <strong>Cross-Platform</strong>: Works on Windows, macOS, and Linux with appropriate Pictures folder detection</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+## Installation & Usage
+
+### NPM Package
+
+This package is available on npm: [@cloudwerxlab/gpt-image-1-mcp](https://www.npmjs.com/package/@cloudwerxlab/gpt-image-1-mcp)
+
+You can install it globally:
+
+```bash
+npm install -g @cloudwerxlab/gpt-image-1-mcp
+```
+
+Or run it directly with npx as shown in the Quick Start section.
 
 ### Tool: `create_image`
 
@@ -211,21 +450,136 @@ The tool returns:
 - The edited image(s) as base64-encoded data
 - Metadata including token usage and file paths
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
-### Common Issues
+<div align="center">
+  <img src="https://img.shields.io/badge/Support-Available-brightgreen" alt="Support Available">
+</div>
 
-1. **MIME Type Errors**: If you encounter MIME type errors when editing images, ensure the image files have the correct extension (.png, .jpg, etc.) that matches their actual format.
+### 🚨 Common Issues
 
-2. **API Key Issues**: If you get authentication errors, verify your OpenAI API key is correct and has access to the gpt-image-1 model.
+<table>
+  <tr>
+    <th align="center">Issue</th>
+    <th align="center">Solution</th>
+  </tr>
+  <tr>
+    <td>
+      <h4>🖼️ MIME Type Errors</h4>
+      <p>Errors related to image format or MIME type handling</p>
+    </td>
+    <td>
+      <p>Ensure image files have the correct extension (.png, .jpg, etc.) that matches their actual format. The server uses file extensions to determine MIME types.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h4>🔑 API Key Issues</h4>
+      <p>Authentication errors with OpenAI API</p>
+    </td>
+    <td>
+      <p>Verify your OpenAI API key is correct and has access to the gpt-image-1 model. Check for any spaces or special characters that might have been accidentally included.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h4>🛠️ Build Errors</h4>
+      <p>Issues when building from source</p>
+    </td>
+    <td>
+      <p>Ensure you have the correct TypeScript version installed (v5.3.3 or compatible) and that your <code>tsconfig.json</code> is properly configured. Run <code>npm install</code> to ensure all dependencies are installed.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <h4>📁 Output Directory Issues</h4>
+      <p>Problems with saving generated images</p>
+    </td>
+    <td>
+      <p>Check if the process has write permissions to the configured output directory. Try using an absolute path for <code>GPT_IMAGE_OUTPUT_DIR</code> if relative paths aren't working.</p>
+    </td>
+  </tr>
+</table>
 
-3. **Build Errors**: If you encounter build errors, ensure you have the correct TypeScript version installed and that your `tsconfig.json` is properly configured.
+### 🔍 Error Handling and Reporting
 
-## License
+The MCP server includes comprehensive error handling that provides detailed information when something goes wrong. When an error occurs:
 
-This project is licensed under the MIT License.
+1. **Error Format**: All errors are returned with:
+   - A clear error message describing what went wrong
+   - The specific error code or type
+   - Additional context about the error when available
 
-## Acknowledgments
+2. **AI Assistant Behavior**: When using this MCP server with AI assistants:
+   - The AI will always report the full error message to help with troubleshooting
+   - The AI will explain the likely cause of the error in plain language
+   - The AI will suggest specific steps to resolve the issue
 
-- [OpenAI](https://openai.com/) for providing the gpt-image-1 model
-- [Model Context Protocol (MCP)](https://github.com/model-context-protocol/mcp) for the protocol specification
+## 📄 License
+
+<div align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a>
+</div>
+
+<p align="center">
+  This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details.
+</p>
+
+<details>
+  <summary>License Summary</summary>
+
+  <p>The MIT License is a permissive license that is short and to the point. It lets people do anything with your code with proper attribution and without warranty.</p>
+
+  <p><strong>You are free to:</strong></p>
+  <ul>
+    <li>Use the software commercially</li>
+    <li>Modify the software</li>
+    <li>Distribute the software</li>
+    <li>Use and modify the software privately</li>
+  </ul>
+
+  <p><strong>Under the following terms:</strong></p>
+  <ul>
+    <li>Include the original copyright notice and the license notice in all copies or substantial uses of the work</li>
+  </ul>
+
+  <p><strong>Limitations:</strong></p>
+  <ul>
+    <li>The authors provide no warranty with the software and are not liable for any damages</li>
+  </ul>
+</details>
+
+## 🙏 Acknowledgments
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://openai.com/">
+          <img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white" alt="OpenAI">
+          <p>For providing the gpt-image-1 model</p>
+        </a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/model-context-protocol/mcp">
+          <img src="https://img.shields.io/badge/MCP-Protocol-00A3E0" alt="MCP Protocol">
+          <p>For the protocol specification</p>
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div align="center">
+  <p>
+    <a href="https://github.com/CLOUDWERX-DEV/gpt-image-1-mcp/issues">Report Bug</a> •
+    <a href="https://github.com/CLOUDWERX-DEV/gpt-image-1-mcp/issues">Request Feature</a> •
+    <a href="https://cloudwerx.dev">Visit Our Website</a>
+  </p>
+</div>
+
+<div align="center">
+  <p>
+    Developed with ❤️ by <a href="https://cloudwerx.dev">CLOUDWERX</a>
+  </p>
+</div>
