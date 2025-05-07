@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.3 - 2025-05-07
+
+### Added
+
+- **Comprehensive Error Handling**: Significantly enhanced error handling with detailed error codes, descriptions, and troubleshooting suggestions
+- **Error Metadata**: Added structured error metadata to responses for better debugging and AI assistance
+- **Error Type Detection**: Added specific error detection for common issues (file not found, permission denied, etc.)
+- **Suggested Fixes**: Included suggested fixes in error messages based on the error type
+- **MIT License**: Added proper MIT license file
+
+### Fixed
+
+- **API Error Detection**: Improved detection and handling of OpenAI API errors
+- **Error Reporting**: Enhanced error reporting with more context and details
+- **Documentation**: Updated README with comprehensive error handling information
+
 ## 1.1.0 - 2025-05-05
 
 ### Added

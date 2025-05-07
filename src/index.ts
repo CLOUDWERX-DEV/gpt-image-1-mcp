@@ -106,7 +106,7 @@ function readImageAsBase64(imagePath: string): string {
 
 const server = new McpServer({
   name: "@cloudwerxlab/gpt-image-1-mcp",
-  version: "1.1.0",
+  version: "1.1.3",
   description: "An MCP server for generating and editing images using the OpenAI gpt-image-1 model.",
 });
 
@@ -132,14 +132,34 @@ server.tool(
   },
   async (args: CreateImageArgs, extra: any) => {
     try {
-      // Use the OpenAI SDK's createImage method
-      const apiResponse = await openai.images.generate({
-        model: "gpt-image-1",
-        prompt: args.prompt,
-        size: args.size || "1024x1024",
-        quality: args.quality || "high",
-        n: args.n || 1
-      });
+      // Use the OpenAI SDK's createImage method with detailed error handling
+      let apiResponse;
+      try {
+        apiResponse = await openai.images.generate({
+          model: "gpt-image-1",
+          prompt: args.prompt,
+          size: args.size || "1024x1024",
+          quality: args.quality || "high",
+          n: args.n || 1
+        });
+
+        // Check if the response contains an error field (shouldn't happen with SDK but just in case)
+        if (apiResponse && 'error' in apiResponse) {
+          const error = (apiResponse as any).error;
+          throw {
+            message: error.message || 'Unknown API error',
+            type: error.type || 'api_error',
+            code: error.code || 'unknown',
+            response: { data: { error } }
+          };
+        }
+      } catch (apiError: any) {
+        // Enhance the error with more details if possible
+        console.error("OpenAI API Error:", apiError);
+
+        // Rethrow with enhanced information
+        throw apiError;
+      }
 
       // Create a Response-like object with a json() method for compatibility with the built-in tool
       const response = {
@@ -238,13 +258,63 @@ ${responseData.usage ? `⚡ **Token Usage**:
         })
       };
     } catch (error: any) {
+      // Log the full error for debugging
       console.error("Error generating image:", error);
+
+      // Extract detailed error information
+      const errorCode = error.status || error.code || 'Unknown';
+      const errorType = error.type || 'Error';
+      const errorMessage = error.message || 'An unknown error occurred';
+
+      // Check for specific OpenAI API errors
+      let detailedError = '';
+
+      if (error.response) {
+        // If we have a response object from OpenAI, extract more details
+        try {
+          const responseData = error.response.data || {};
+          if (responseData.error) {
+            detailedError = `\n📋 **Details**: ${responseData.error.message || 'No additional details available'}`;
+
+            // Add parameter errors if available
+            if (responseData.error.param) {
+              detailedError += `\n🔍 **Parameter**: ${responseData.error.param}`;
+            }
+
+            // Add code if available
+            if (responseData.error.code) {
+              detailedError += `\n🔢 **Error Code**: ${responseData.error.code}`;
+            }
+
+            // Add type if available
+            if (responseData.error.type) {
+              detailedError += `\n📝 **Error Type**: ${responseData.error.type}`;
+            }
+          }
+        } catch (parseError) {
+          // If we can't parse the response, just use what we have
+          detailedError = '\n📋 **Details**: Could not parse error details from API response';
+        }
+      }
+
+      // Construct a comprehensive error message
+      const fullErrorMessage = `❌ **Image Generation Failed**\n\n⚠️ **Error ${errorCode}**: ${errorType} - ${errorMessage}${detailedError}\n\n🔄 Please try again with a different prompt or parameters.`;
+
+      // Return the detailed error to the client
       return {
         content: [{
           type: "text",
-          text: `❌ **Image Generation Failed**\n\n⚠️ **Error**: ${error.message}\n\n🔄 Please try again with a different prompt or parameters.`
+          text: fullErrorMessage
         }],
         isError: true,
+        _meta: {
+          error: {
+            code: errorCode,
+            type: errorType,
+            message: errorMessage,
+            raw: JSON.stringify(error, Object.getOwnPropertyNames(error))
+          }
+        }
       };
     }
   }
@@ -405,7 +475,27 @@ server.tool(
       try {
         responseData = JSON.parse(responseJson);
         console.error(`Response parsed successfully.`);
+
+        // Check if the response contains an error
+        if (responseData.error) {
+          console.error(`OpenAI API returned an error:`, responseData.error);
+          const errorMessage = responseData.error.message || 'Unknown API error';
+          const errorType = responseData.error.type || 'api_error';
+          const errorCode = responseData.error.code || responseData.error.status || 'unknown';
+
+          throw {
+            message: errorMessage,
+            type: errorType,
+            code: errorCode,
+            response: { data: responseData }
+          };
+        }
       } catch (error: any) {
+        // If the error is from our API error check, rethrow it
+        if (error.response && error.response.data) {
+          throw error;
+        }
+
         console.error(`Error parsing response: ${error.message}`);
         throw new Error(`Failed to parse response: ${error.message}`);
       }
@@ -561,13 +651,111 @@ ${responseData.usage ? `⚡ **Token Usage**:
         })
       };
     } catch (error: any) {
+      // Log the full error for debugging
       console.error("Error creating image edit:", error);
+
+      // Extract detailed error information
+      const errorCode = error.status || error.code || 'Unknown';
+      const errorType = error.type || 'Error';
+      const errorMessage = error.message || 'An unknown error occurred';
+
+      // Check for specific error types and provide more helpful messages
+      let detailedError = '';
+      let suggestedFix = '';
+
+      // Handle file-related errors
+      if (errorMessage.includes('ENOENT') || errorMessage.includes('no such file')) {
+        detailedError = '\n📋 **Details**: The specified image or mask file could not be found';
+        suggestedFix = '\n💡 **Suggestion**: Verify that the file path is correct and the file exists';
+      }
+      // Handle permission errors
+      else if (errorMessage.includes('EACCES') || errorMessage.includes('permission denied')) {
+        detailedError = '\n📋 **Details**: Permission denied when trying to access the file';
+        suggestedFix = '\n💡 **Suggestion**: Check file permissions or try running with elevated privileges';
+      }
+      // Handle curl errors
+      else if (errorMessage.includes('curl')) {
+        detailedError = '\n📋 **Details**: Error occurred while sending the request to OpenAI API';
+        suggestedFix = '\n💡 **Suggestion**: Check your internet connection and API key';
+      }
+      // Handle OpenAI API errors
+      else if (error.response) {
+        try {
+          const responseData = error.response.data || {};
+          if (responseData.error) {
+            detailedError = `\n📋 **Details**: ${responseData.error.message || 'No additional details available'}`;
+
+            // Add parameter errors if available
+            if (responseData.error.param) {
+              detailedError += `\n🔍 **Parameter**: ${responseData.error.param}`;
+            }
+
+            // Add code if available
+            if (responseData.error.code) {
+              detailedError += `\n🔢 **Error Code**: ${responseData.error.code}`;
+            }
+
+            // Add type if available
+            if (responseData.error.type) {
+              detailedError += `\n📝 **Error Type**: ${responseData.error.type}`;
+            }
+
+            // Provide suggestions based on error type
+            if (responseData.error.type === 'invalid_request_error') {
+              suggestedFix = '\n💡 **Suggestion**: Check that your image format is supported (PNG, JPEG) and the prompt is valid';
+            } else if (responseData.error.type === 'authentication_error') {
+              suggestedFix = '\n💡 **Suggestion**: Verify your OpenAI API key is correct and has access to the gpt-image-1 model';
+            }
+          }
+        } catch (parseError) {
+          detailedError = '\n📋 **Details**: Could not parse error details from API response';
+        }
+      }
+
+      // If we have a JSON response with an error, try to extract it
+      if (errorMessage.includes('{') && errorMessage.includes('}')) {
+        try {
+          const jsonStartIndex = errorMessage.indexOf('{');
+          const jsonEndIndex = errorMessage.lastIndexOf('}') + 1;
+          const jsonStr = errorMessage.substring(jsonStartIndex, jsonEndIndex);
+          const jsonError = JSON.parse(jsonStr);
+
+          if (jsonError.error) {
+            detailedError = `\n📋 **Details**: ${jsonError.error.message || 'No additional details available'}`;
+
+            if (jsonError.error.code) {
+              detailedError += `\n🔢 **Error Code**: ${jsonError.error.code}`;
+            }
+
+            if (jsonError.error.type) {
+              detailedError += `\n📝 **Error Type**: ${jsonError.error.type}`;
+            }
+          }
+        } catch (e) {
+          // If we can't parse JSON from the error message, just continue
+        }
+      }
+
+      // Construct a comprehensive error message
+      const fullErrorMessage = `❌ **Image Edit Failed**\n\n⚠️ **Error ${errorCode}**: ${errorType} - ${errorMessage}${detailedError}${suggestedFix}\n\n🔄 Please try again with a different prompt, image, or parameters.`;
+
+      // Return the detailed error to the client
       return {
         content: [{
           type: "text",
-          text: `❌ **Image Edit Failed**\n\n⚠️ **Error**: ${error.message}\n\n🔄 Please try again with a different prompt, image, or parameters.`
+          text: fullErrorMessage
         }],
         isError: true,
+        _meta: {
+          error: {
+            code: errorCode,
+            type: errorType,
+            message: errorMessage,
+            details: detailedError.replace(/\n📋 \*\*Details\*\*: /, ''),
+            suggestion: suggestedFix.replace(/\n💡 \*\*Suggestion\*\*: /, ''),
+            raw: JSON.stringify(error, Object.getOwnPropertyNames(error))
+          }
+        }
       };
     }
   }
