@@ -10,6 +10,7 @@
   <a href="https://github.com/CLOUDWERX-DEV/gpt-image-1-mcp/blob/main/LICENSE"><img src="https://img.shields.io/github/license/CLOUDWERX-DEV/gpt-image-1-mcp.svg" alt="license"></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/node/v/@cloudwerxlab/gpt-image-1-mcp.svg" alt="node version"></a>
   <a href="https://cloudwerx.dev"><img src="https://img.shields.io/badge/website-cloudwerx.dev-blue" alt="Website"></a>
+  <a href="https://smithery.ai/server/@cloudwerxlab/gpt-image-1-mcp"><img src="https://smithery.ai/badge/@cloudwerxlab/gpt-image-1-mcp" alt="Smithery Installs"></a>
 </p>
 
 <p align="center">
@@ -334,6 +335,14 @@ npx -y @cloudwerxlab/gpt-image-1-mcp
 </table>
 
 ## Installation & Usage
+
+### Installing via Smithery
+
+To install gpt-image-1-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@cloudwerxlab/gpt-image-1-mcp):
+
+```bash
+npx -y @smithery/cli install @cloudwerxlab/gpt-image-1-mcp --client claude
+```
 
 ### NPM Package
 
