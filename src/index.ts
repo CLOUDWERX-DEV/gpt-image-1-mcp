@@ -147,7 +147,7 @@ function readImageAsBase64(imagePath: string): string {
 
 const server = new McpServer({
   name: "@cloudwerxlab/gpt-image-1-mcp",
-  version: "1.1.6",
+  version: "1.1.7",
   description: "An MCP server for generating and editing images using the OpenAI gpt-image-1 model.",
 });
 

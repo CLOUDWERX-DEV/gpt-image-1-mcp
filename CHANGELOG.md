@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.7 - 2025-05-07
+
+### Fixed
+
+- **Documentation**: Fixed formatting issues in README.md
+- **Documentation**: Restored enhanced README with centered logo and improved layout
+
 ## 1.1.6 - 2025-05-07
 
 ### Changed
@@ -9,22 +16,6 @@ All notable changes to this project will be documented in this file.
 - **Default Output Directory**: Changed default image save location to user's Pictures folder under `gpt-image-1` subfolder
 - **Cross-Platform Support**: Added detection of Pictures folder location on Windows, macOS, and Linux
 - **Documentation**: Updated README with new default output directory information
-
-## 1.1.3 - 2025-05-07
-
-### Added
-
-- **Comprehensive Error Handling**: Significantly enhanced error handling with detailed error codes, descriptions, and troubleshooting suggestions
-- **Error Metadata**: Added structured error metadata to responses for better debugging and AI assistance
-- **Error Type Detection**: Added specific error detection for common issues (file not found, permission denied, etc.)
-- **Suggested Fixes**: Included suggested fixes in error messages based on the error type
-- **MIT License**: Added proper MIT license file
-
-### Fixed
-
-- **API Error Detection**: Improved detection and handling of OpenAI API errors
-- **Error Reporting**: Enhanced error reporting with more context and details
-- **Documentation**: Updated README with comprehensive error handling information
 
 ## 1.1.0 - 2025-05-05
 
