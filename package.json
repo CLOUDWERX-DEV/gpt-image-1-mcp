@@ -1,0 +1,46 @@
+{
+  "name": "@cloudwerxlab/gpt-image-1-mcp",
+  "version": "1.1.2",
+  "description": "A Model Context Protocol server for OpenAI's gpt-image-1 model",
+  "type": "module",
+  "bin": {
+    "@cloudwerxlab/gpt-image-1-mcp": "build/index.js"
+  },
+  "files": [
+    "build",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "cd src && tsc && node -e \"require('fs').chmodSync('../build/index.js', '755')\"",
+    "watch": "cd src && tsc --watch",
+    "test": "node test-mcp-server.js",
+    "test:npx": "node test-npx.js",
+    "prepare": "npm run build",
+    "inspector": "npx @modelcontextprotocol/inspector ./build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.97.0",
+    "zod": "^3.24.4",
+    "form-data": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "mcp",
+    "openai",
+    "gpt-image-1",
+    "image-generation",
+    "model-context-protocol"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
+
