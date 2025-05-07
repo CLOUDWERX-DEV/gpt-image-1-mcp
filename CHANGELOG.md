@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.6 - 2025-05-07
+
+### Changed
+
+- **Default Output Directory**: Changed default image save location to user's Pictures folder under `gpt-image-1` subfolder
+- **Cross-Platform Support**: Added detection of Pictures folder location on Windows, macOS, and Linux
+- **Documentation**: Updated README with new default output directory information
+
 ## 1.1.3 - 2025-05-07
 
 ### Added

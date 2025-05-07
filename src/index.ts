@@ -28,8 +28,10 @@ const openai = new OpenAI({
 });
 
 // Determine the output directory for saving images
-// First check if an environment variable is set
-// Otherwise use the current workspace directory or fallback to current working directory
+// Priority:
+// 1. Environment variable GPT_IMAGE_OUTPUT_DIR if set
+// 2. User's Pictures folder with a gpt-image-1 subfolder
+// 3. Fallback to a 'generated-images' folder in the current directory if Pictures folder can't be determined
 const OUTPUT_DIR_ENV = process.env.GPT_IMAGE_OUTPUT_DIR;
 let outputDir: string;
 
@@ -38,10 +40,39 @@ if (OUTPUT_DIR_ENV) {
   outputDir = OUTPUT_DIR_ENV;
   console.error(`Using output directory from environment variable: ${outputDir}`);
 } else {
-  // Use the current workspace directory or fallback to current working directory
-  const workspaceDir = process.cwd(); // This will be the VS Code workspace directory when run from VS Code
-  outputDir = path.join(workspaceDir, 'generated-images');
-  console.error(`Using workspace directory for output: ${outputDir}`);
+  // Try to use the user's Pictures folder
+  try {
+    // Determine the user's home directory
+    const homeDir = os.homedir();
+
+    // Determine the Pictures folder based on the OS
+    let picturesDir: string;
+
+    if (process.platform === 'win32') {
+      // Windows: Use the standard Pictures folder
+      picturesDir = path.join(homeDir, 'Pictures');
+    } else if (process.platform === 'darwin') {
+      // macOS: Use the standard Pictures folder
+      picturesDir = path.join(homeDir, 'Pictures');
+    } else {
+      // Linux and other Unix-like systems: Use the XDG standard if possible
+      const xdgPicturesDir = process.env.XDG_PICTURES_DIR;
+      if (xdgPicturesDir) {
+        picturesDir = xdgPicturesDir;
+      } else {
+        // Fallback to a standard location
+        picturesDir = path.join(homeDir, 'Pictures');
+      }
+    }
+
+    // Create a gpt-image-1 subfolder in the Pictures directory
+    outputDir = path.join(picturesDir, 'gpt-image-1');
+    console.error(`Using user's Pictures folder for output: ${outputDir}`);
+  } catch (error) {
+    // If there's any error determining the Pictures folder, fall back to the current directory
+    outputDir = path.join(process.cwd(), 'generated-images');
+    console.error(`Could not determine Pictures folder, using fallback directory: ${outputDir}`);
+  }
 }
 
 // Create the output directory if it doesn't exist
@@ -54,9 +85,19 @@ if (!fs.existsSync(outputDir)) {
 
 // Function to save base64 image to disk and return the file path
 function saveImageToDisk(base64Data: string, format: string = 'png'): string {
+  // Create a dedicated folder for generated images if we're using the workspace root
+  // This keeps the workspace organized while still saving in the current directory
+  const imagesFolder = path.join(outputDir, 'gpt-images');
+
+  // Create the images folder if it doesn't exist
+  if (!fs.existsSync(imagesFolder)) {
+    fs.mkdirSync(imagesFolder, { recursive: true });
+    console.error(`Created images folder: ${imagesFolder}`);
+  }
+
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const filename = `image-${timestamp}.${format}`;
-  const outputPath = path.join(outputDir, filename);
+  const outputPath = path.join(imagesFolder, filename);
 
   // Remove the data URL prefix if present
   const base64Image = base64Data.replace(/^data:image\/\w+;base64,/, '');
@@ -106,7 +147,7 @@ function readImageAsBase64(imagePath: string): string {
 
 const server = new McpServer({
   name: "@cloudwerxlab/gpt-image-1-mcp",
-  version: "1.1.3",
+  version: "1.1.6",
   description: "An MCP server for generating and editing images using the OpenAI gpt-image-1 model.",
 });
 

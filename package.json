@@ -1,6 +1,6 @@
 {
   "name": "@cloudwerxlab/gpt-image-1-mcp",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "A Model Context Protocol server for OpenAI's gpt-image-1 model",
   "type": "module",
   "bin": {
