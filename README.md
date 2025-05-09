@@ -16,6 +16,10 @@
   A Model Context Protocol (MCP) server for generating and editing images using the OpenAI <code>gpt-image-1</code> model.
 </p>
 
+<a href="https://glama.ai/mcp/servers/@CLOUDWERX-DEV/gpt-image-1-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@CLOUDWERX-DEV/gpt-image-1-mcp/badge" alt="GPT Image 1 MCP server" />
+</a>
+
 <p align="center">
   <img src="https://img.shields.io/badge/OpenAI-GPT--Image--1-6E46AE" alt="OpenAI GPT-Image-1">
   <img src="https://img.shields.io/badge/MCP-Compatible-00A3E0" alt="MCP Compatible">
